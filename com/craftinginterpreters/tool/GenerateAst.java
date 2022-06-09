@@ -52,7 +52,7 @@ public class GenerateAst {
 
     private static void defineVistor(
         PrintWriter writer, String baseName, List<String> types) {
-            writer.println("    interface Vistor<R> {");
+            writer.println("    interface Visitor<R> {");
 
             for (String type : types) {
                 String typeName = type.split(":")[0].trim();
