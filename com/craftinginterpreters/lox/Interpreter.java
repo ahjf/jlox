@@ -68,6 +68,13 @@ class Interpreter implements Expr.Visitor<Object>,
     }
 
     @Override 
+    public Void visitFunctionStmt(Stmt.Function stmt) {
+        LoxFunction function = new LoxFunction(stmt, environment);
+        environment.define(stmt.name.lexeme, function);
+        return null;
+    }
+
+    @Override 
     public Void visitIfStmt(Stmt.If stmt) {
         if (isTruthy(stmt.condition)) {
             execute(stmt.thenBranch);
@@ -84,6 +91,14 @@ class Interpreter implements Expr.Visitor<Object>,
         return null;
     }
 
+    @Override 
+    public Void visitReturnStmt(Stmt.Return stmt) {
+        Object value = null;
+        if (stmt.value != null) value = evaluate(stmt.value);
+
+        throw new Return(value);
+    }
+    
     @Override
     public Void visitVarStmt(Stmt.Var stmt) {
         Object value = null;
